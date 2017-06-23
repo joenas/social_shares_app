@@ -16,5 +16,5 @@ get '/total' do
 end
 
 def client
-  @client ||= Dalli::Client.new(ENV['MEMCACHED_UR'], expires_in: ENV['MEMCACHED_EXPIRES_IN'].to_i)
+  @client ||= Dalli::Client.new(ENV['MEMCACHED_URL'], expires_in: ENV['MEMCACHED_EXPIRES_IN'].to_i)
 end
