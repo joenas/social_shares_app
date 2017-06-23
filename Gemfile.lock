@@ -3,6 +3,7 @@ GEM
   specs:
     backports (3.8.0)
     daemons (1.2.4)
+    dalli (2.7.6)
     domain_name (0.5.20170404)
       unf (>= 0.0.5, < 1.0.0)
     eventmachine (1.2.3)
@@ -50,6 +51,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  dalli (~> 2.7, >= 2.7.6)
   sinatra
   sinatra-contrib
   social_shares
@@ -59,4 +61,4 @@ RUBY VERSION
    ruby 2.4.0p0
 
 BUNDLED WITH
-   1.14.2
+   1.15.1
