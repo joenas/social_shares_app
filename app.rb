@@ -6,12 +6,12 @@ require 'dalli'
 NETWORKS = [:facebook, :google, :reddit]#, :mail_ru, :vkontakte, :odnoklassniki, :weibo, :buffer, :hatebu]
 
 get '/all' do
-  data = client.fetch(params[:url]) {SocialShares.selected(params[:url], NETWORKS)}
+  data = client.fetch("all/#{params[:url]}") {SocialShares.selected(params[:url], NETWORKS)}
   json data
 end
 
 get '/total' do
-  count = client.fetch(params[:url]) {SocialShares.total(params[:url], NETWORKS)}
+  count = client.fetch("total/#{params[:url]}") {SocialShares.total(params[:url], NETWORKS)}
   json count: count
 end
 
