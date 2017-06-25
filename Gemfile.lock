@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/joenas/social_shares
+  revision: e9c89120062fff0cf3be990a4e926a098184684a
+  branch: no_threads
+  specs:
+    social_shares (0.3.3)
+      json
+      rest-client
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -34,9 +43,6 @@ GEM
       rack-protection (= 2.0.0)
       sinatra (= 2.0.0)
       tilt (>= 1.3, < 3)
-    social_shares (0.3.3)
-      json
-      rest-client
     tilt (2.0.7)
     unf (0.1.4)
       unf_ext
@@ -50,7 +56,7 @@ DEPENDENCIES
   puma (~> 3.4)
   sinatra
   sinatra-contrib
-  social_shares
+  social_shares!
 
 RUBY VERSION
    ruby 2.4.0p0
