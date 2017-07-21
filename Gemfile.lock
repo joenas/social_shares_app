@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/joenas/social_shares
-  revision: e9c89120062fff0cf3be990a4e926a098184684a
+  revision: ed01411fb47053202bd6fdc93543fc89041437e9
   branch: no_threads
   specs:
     social_shares (0.3.3)
