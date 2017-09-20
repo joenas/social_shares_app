@@ -56,22 +56,7 @@ get '/total' do
   json count: count
 end
 
-get '/filter' do
-  count = client.fetch("total/#{params[:url]}") {SocialShares.total(params[:url], NETWORKS)}
-
-  reply = {count: count}
-  if !params[:min_count]
-    status 422
-    reply[:error] = "Param min_count is needed"
-  elsif count < params[:min_count].to_i
-    # Just using not-200 here
-    status 204
-  end
-  json reply
-end
-
 post '/mincount' do
-  puts params
   url, min_count, callback_url = params.values_at('url', 'min_count', 'callback_url')
   if url && min_count && callback_url
     MinCountWorker.perform_async(params)
