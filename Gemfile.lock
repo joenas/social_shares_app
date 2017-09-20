@@ -11,9 +11,15 @@ GEM
   remote: https://rubygems.org/
   specs:
     backports (3.8.0)
+    concurrent-ruby (1.0.5)
+    connection_pool (2.2.1)
     dalli (2.7.6)
     domain_name (0.5.20170404)
       unf (>= 0.0.5, < 1.0.0)
+    faraday (0.13.1)
+      multipart-post (>= 1.2, < 3)
+    faraday_middleware (0.12.2)
+      faraday (>= 0.7.4, < 1.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     json (2.1.0)
@@ -21,16 +27,23 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
     multi_json (1.12.1)
+    multipart-post (2.0.0)
     mustermann (1.0.0)
     netrc (0.11.0)
     puma (3.6.2)
     rack (2.0.3)
     rack-protection (2.0.0)
       rack
+    redis (3.3.3)
     rest-client (2.0.2)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
+    sidekiq (5.0.4)
+      concurrent-ruby (~> 1.0)
+      connection_pool (~> 2.2, >= 2.2.0)
+      rack-protection (>= 1.5.0)
+      redis (~> 3.3, >= 3.3.3)
     sinatra (2.0.0)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -53,7 +66,10 @@ PLATFORMS
 
 DEPENDENCIES
   dalli (~> 2.7, >= 2.7.6)
+  faraday (~> 0.13.1)
+  faraday_middleware (~> 0.12.2)
   puma (~> 3.4)
+  sidekiq (~> 5.0, >= 5.0.4)
   sinatra
   sinatra-contrib
   social_shares!
