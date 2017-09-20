@@ -1,73 +1,46 @@
-require 'sinatra'
-require 'sinatra/json'
+require 'grape'
 require 'social_shares'
 require 'dalli'
-require 'sidekiq'
 require 'redis'
-require 'sidekiq/api'
-require 'sidekiq/web'
-require 'faraday'
-require 'faraday_middleware'
+require 'sidekiq'
+
+require './lib/json_client'
+require './lib/min_count_worker'
+
 
 NETWORKS = [:facebook, :google, :reddit, :mail_ru, :vkontakte]#, :odnoklassniki, :weibo, :buffer, :hatebu]
 MAX_RETRIES = 48
 
-class JsonClient < SimpleDelegator
+class SocialSharesApp < Grape::API
 
-  def initialize(url, &block)
-    @url = url
-    super client(&block)
-  end
+  version 'v1', using: :header, vendor: 'social_shares_app'
+  format :json
 
-  def client
-    Faraday.new @url do |connection|
-      yield connection if block_given?
-      connection.request :json
-      connection.response :json, content_type: 'application/json'
-      connection.adapter Faraday.default_adapter
+  helpers do
+    def client
+      @client ||= Dalli::Client.new(ENV['MEMCACHED_URL'], expires_in: ENV['MEMCACHED_EXPIRES_IN'].to_i)
     end
   end
-end
 
-class MinCountWorker
-  include Sidekiq::Worker
-
-  def perform(params, retries = 0)
-    count = SocialShares.total(params['url'], NETWORKS)
-    if count >= params['min_count'].to_i
-      callback_url = params.delete('callback_url')
-      client = JsonClient.new(callback_url)
-      client.post('', params.merge(count: count))
-    elsif retries < MAX_RETRIES
-      retries = retries + 1
-      params.merge!(count: count)
-      MinCountWorker.perform_in(30*60, params, retries)
-    end
+  desc 'Get social shares count per network for :url'
+  get :all do
+    client.fetch("all/#{params[:url]}") {SocialShares.selected(params[:url], NETWORKS)}
   end
-end
 
-get '/all' do
-  data = client.fetch("all/#{params[:url]}") {SocialShares.selected(params[:url], NETWORKS)}
-  json data
-end
+  desc 'Get total social shares count for :url'
+  get :total do
+    count = client.fetch("total/#{params[:url]}") {SocialShares.total(params[:url], NETWORKS)}
+    {count: count}
+  end
 
-get '/total' do
-  count = client.fetch("total/#{params[:url]}") {SocialShares.total(params[:url], NETWORKS)}
-  json count: count
-end
-
-post '/mincount' do
-  url, min_count, callback_url = params.values_at('url', 'min_count', 'callback_url')
-  if url && min_count && callback_url
+  desc 'Periodically check social shares count and POST to callback_url when min_count is achieved'
+  params do
+    requires :url, type: String
+    requires :min_count, type: Integer
+    requires :callback_url, type: String
+  end
+  post :mincount do
     MinCountWorker.perform_async(params)
-    json status: :ok
-  else
-    status 422
-    json error: "Params missing"
+    {status: :ok}
   end
 end
-
-def client
-  @client ||= Dalli::Client.new(ENV['MEMCACHED_URL'], expires_in: ENV['MEMCACHED_EXPIRES_IN'].to_i)
-end
-
