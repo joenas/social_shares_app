@@ -10,7 +10,7 @@ require 'faraday'
 require 'faraday_middleware'
 
 NETWORKS = [:facebook, :google, :reddit, :mail_ru, :vkontakte]#, :odnoklassniki, :weibo, :buffer, :hatebu]
-MAX_RETRIES = 25
+MAX_RETRIES = 48
 
 class JsonClient < SimpleDelegator
 
@@ -40,7 +40,8 @@ class MinCountWorker
       client.post('', params.merge(count: count))
     elsif retries < MAX_RETRIES
       retries = retries + 1
-      MinCountWorker.perform_in(60*60, params, retries)
+      params.merge!(count: count)
+      MinCountWorker.perform_in(30*60, params, retries)
     end
   end
 end
