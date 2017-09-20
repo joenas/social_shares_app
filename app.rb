@@ -5,6 +5,7 @@ require 'dalli'
 require 'sidekiq'
 require 'redis'
 require 'sidekiq/api'
+require 'sidekiq/web'
 require 'faraday'
 require 'faraday_middleware'
 
@@ -31,19 +32,15 @@ end
 class MinCountWorker
   include Sidekiq::Worker
 
-  def perform(url, min_count, callback_url, retries = 0)
-    count = SocialShares.total(url, NETWORKS)
-    retries = retries + 1
-    if count >= min_count.to_i
+  def perform(params, retries = 0)
+    count = SocialShares.total(params['url'], NETWORKS)
+    if count >= params['min_count'].to_i
+      callback_url = params.delete('callback_url')
       client = JsonClient.new(callback_url)
-      client.post('', {
-        "url": url,
-        "count": count
-      })
+      client.post('', params.merge(count: count))
     elsif retries < MAX_RETRIES
-      MinCountWorker.perform_in(60*60, url, min_count, callback_url, retries)
-    else
-      # DIE
+      retries = retries + 1
+      MinCountWorker.perform_in(60*60, params, retries)
     end
   end
 end
@@ -72,11 +69,10 @@ get '/filter' do
   json reply
 end
 
-get '/mincount' do
+post '/mincount' do
   url, min_count, callback_url = params.values_at('url', 'min_count', 'callback_url')
   if url && min_count && callback_url
-    status 200
-    MinCountWorker.perform_async(url, min_count, callback_url)
+    MinCountWorker.perform_async(params)
     json status: :ok
   else
     status 422
@@ -87,3 +83,4 @@ end
 def client
   @client ||= Dalli::Client.new(ENV['MEMCACHED_URL'], expires_in: ENV['MEMCACHED_EXPIRES_IN'].to_i)
 end
+
