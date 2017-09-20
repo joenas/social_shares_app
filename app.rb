@@ -70,6 +70,7 @@ get '/filter' do
 end
 
 post '/mincount' do
+  puts params
   url, min_count, callback_url = params.values_at('url', 'min_count', 'callback_url')
   if url && min_count && callback_url
     MinCountWorker.perform_async(params)
