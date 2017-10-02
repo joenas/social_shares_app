@@ -7,5 +7,6 @@ gem 'dalli', '~> 2.7', '>= 2.7.6'
 gem 'sidekiq', '~> 5.0', '>= 5.0.4'
 gem 'faraday', '~> 0.13.1'
 gem 'faraday_middleware', '~> 0.12.2'
+gem 'influxdb', '~> 0.4.2'
 
 ruby '2.4.0'

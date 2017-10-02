@@ -6,6 +6,7 @@ require 'sidekiq'
 
 require './lib/json_client'
 require './lib/min_count_worker'
+require './lib/influx_worker'
 
 
 NETWORKS = [:facebook, :google, :reddit, :mail_ru, :vkontakte]#, :odnoklassniki, :weibo, :buffer, :hatebu]
