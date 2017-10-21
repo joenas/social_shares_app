@@ -103,6 +103,7 @@ DEPENDENCIES
   sidekiq (~> 5.0, >= 5.0.4)
   sinatra
   social_shares!
+  virtus (~> 1.0, >= 1.0.5)
 
 RUBY VERSION
    ruby 2.4.0p0

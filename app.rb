@@ -3,10 +3,13 @@ require 'social_shares'
 require 'dalli'
 require 'redis'
 require 'sidekiq'
+require 'json'
 
 require './lib/json_client'
 require './lib/min_count_worker'
 require './lib/influx_worker'
+require './lib/news_worker'
+require './lib/news_item'
 
 
 NETWORKS = [:facebook, :google, :reddit, :mail_ru, :vkontakte]#, :odnoklassniki, :weibo, :buffer, :hatebu]
@@ -21,6 +24,21 @@ class SocialSharesApp < Grape::API
     def client
       @client ||= Dalli::Client.new(ENV['MEMCACHED_URL'], expires_in: ENV['MEMCACHED_EXPIRES_IN'].to_i)
     end
+
+    def redis
+      @redis ||= Redis.new(url: ENV['REDIS_URL'])
+    end
+  end
+
+  desc 'Get news feed'
+  params do
+    optional 'last-modified', type: Integer
+  end
+  get :news do
+    items = JSON.parse(redis.get('news') || '{}')
+    NewsWorker.perform_async if items.empty?
+    items = params['last-modified'].present? ? items.select{|id, item| item['fetched_at'] >= params['last-modified']} : items
+    {items: items, ids: items.keys}
   end
 
   desc 'Get social shares count per network for :url'
