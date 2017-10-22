@@ -9,5 +9,7 @@ gem 'faraday', '~> 0.13.1'
 gem 'faraday_middleware', '~> 0.12.2'
 gem 'influxdb', '~> 0.4.2'
 gem 'virtus', '~> 1.0', '>= 1.0.5'
+gem 'oj', '~> 3.3', '>= 3.3.8'
+gem 'multi_json', '~> 1.12', '>= 1.12.2'
 
 ruby '2.4.0'

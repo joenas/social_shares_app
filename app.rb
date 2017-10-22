@@ -3,7 +3,8 @@ require 'social_shares'
 require 'dalli'
 require 'redis'
 require 'sidekiq'
-require 'json'
+require 'oj'
+require 'multi_json'
 
 require './lib/json_client'
 require './lib/min_count_worker'
@@ -35,9 +36,9 @@ class SocialSharesApp < Grape::API
     optional 'last-modified', type: Integer
   end
   get :news do
-    items = JSON.parse(redis.get('news') || '{}')
+    items = Oj.load(redis.get('news') || '{}')
     NewsWorker.perform_async if items.empty?
-    items = params['last-modified'].present? ? items.select{|id, item| item['fetched_at'] >= params['last-modified']} : items
+    items = params['last-modified'].present? ? items.select{|_id, item| item[:fetched_at] >= params['last-modified']} : items
     {items: items, ids: items.keys}
   end
 
