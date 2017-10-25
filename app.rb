@@ -11,6 +11,7 @@ require './lib/min_count_worker'
 require './lib/influx_worker'
 require './lib/news_worker'
 require './lib/news_item'
+require './lib/fetch_images_worker'
 
 
 NETWORKS = [:facebook, :google, :reddit, :mail_ru, :vkontakte]#, :odnoklassniki, :weibo, :buffer, :hatebu]
