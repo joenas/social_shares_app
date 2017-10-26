@@ -1,6 +1,7 @@
 require 'faraday'
 require 'faraday_middleware'
 
+# TODO use patron
 class JsonClient < SimpleDelegator
   def initialize(url, &block)
     @url = url
