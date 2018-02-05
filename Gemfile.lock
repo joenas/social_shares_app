@@ -59,7 +59,7 @@ GEM
     netrc (0.11.0)
     oj (3.4.0)
     patron (0.10.0)
-    puma (3.11.1)
+    puma (3.11.2)
     rack (2.0.4)
     rack-accept (0.4.5)
       rack (>= 0.4)
