@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-ruby '2.4.0'
+ruby '2.4.3'
 gem 'grape', '~> 1.0', '>= 1.0.1'
 gem 'sinatra'
 gem 'puma', '~> 3.4'
