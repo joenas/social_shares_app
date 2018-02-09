@@ -1,4 +1,5 @@
 source "https://rubygems.org"
+ruby '2.4.0'
 gem 'grape', '~> 1.0', '>= 1.0.1'
 gem 'sinatra'
 gem 'puma', '~> 3.4'
@@ -12,5 +13,3 @@ gem 'virtus', '~> 1.0', '>= 1.0.5'
 gem 'oj', '~> 3.3', '>= 3.3.8'
 gem 'multi_json', '~> 1.12', '>= 1.12.2'
 gem 'patron', '~> 0.10.0'
-
-ruby '2.4.0'
