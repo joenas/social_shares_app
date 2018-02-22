@@ -1,12 +1,3 @@
-GIT
-  remote: https://github.com/joenas/social_shares
-  revision: ed01411fb47053202bd6fdc93543fc89041437e9
-  branch: no_threads
-  specs:
-    social_shares (0.3.3)
-      json
-      rest-client
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -81,13 +72,16 @@ GEM
       rack (~> 2.0)
       rack-protection (= 2.0.1)
       tilt (~> 2.0)
+    social_shares (0.3.3)
+      json
+      rest-client
     thread_safe (0.3.6)
     tilt (2.0.8)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.4)
+    unf_ext (0.0.7.5)
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -109,7 +103,7 @@ DEPENDENCIES
   puma (~> 3.4)
   sidekiq (~> 5.0, >= 5.0.4)
   sinatra
-  social_shares!
+  social_shares
   virtus (~> 1.0, >= 1.0.5)
 
 RUBY VERSION
