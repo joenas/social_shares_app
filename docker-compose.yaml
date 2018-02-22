@@ -4,3 +4,9 @@ services:
     image: memcached
     ports:
       - "11211:11211"
+
+  redis:
+    image: redis:2.8.23
+    ports:
+      - "6399:6379"
+
