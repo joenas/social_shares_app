@@ -20,6 +20,6 @@ class NewsWorker
     items = Hash[by_id.merge(current_items).take(MAX_TO_KEEP)]
     redis.set('news', Oj.dump(items))
     FetchImagesWorker.perform_async(fetched_at)
-    NewsWorker.perform_in(1*60)
+    NewsWorker.perform_in(ENV['FETCH_NEWS_INTERVAL'].to_i*60)
   end
 end
