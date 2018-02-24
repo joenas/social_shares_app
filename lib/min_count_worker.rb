@@ -2,7 +2,7 @@ class MinCountWorker
   include Sidekiq::Worker
 
   def perform(params, retries = 0)
-    count = SocialShares.total(params['url'], NETWORKS)
+    count = SocialShares.total!(params['url'], NETWORKS)
     params.merge!(count: count)
     if count >= params['min_count'].to_i
       callback_url = params.delete('callback_url')
