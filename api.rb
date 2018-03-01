@@ -68,7 +68,7 @@ class SocialSharesApp < Grape::API
   end
   post :news_items do
     source = NewsSource.find_by_name!(params.delete(:source))
-    item = NewsItem.create! params.merge(news_source_id: source.id, description: params[:description].tr('<![CDATA[',EMPTY).tr(']]>', EMPTY))
+    item = NewsItem.create! declared(params).merge(news_source_id: source.id, description: params[:description].tr('<![CDATA[',EMPTY).tr(']]>', EMPTY))
     NewsCountsWorker.perform_async(item.id)
     item
   end
