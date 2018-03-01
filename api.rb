@@ -78,9 +78,9 @@ class SocialSharesApp < Grape::API
     optional 'last-modified', type: Integer
   end
   get :news_items do
-    items = NewsItem.where.not(fetched_at: nil)
-    items = params['last-modified'].present? ? items.where("fetched_at >= ?", DateTime.strptime(params['last-modified'].to_s,'%s')) : items.all
-    decorated = NewsItemDecorator.decorate_collection items.preload(:source).order(published_at: :desc).limit(500)
+    last_modified = params.fetch('last-modified', 1.month.ago.to_i).to_s
+    items = NewsItem.where("fetched_at >= ?", DateTime.strptime(last_modified,'%s')).preload(:source).order(published_at: :desc)
+    decorated = NewsItemDecorator.decorate_collection items
     by_id = decorated.each_with_object({}){|item, memo| memo[item[:id]] = item.to_h}
     {items: by_id, ids: by_id.keys}
   end

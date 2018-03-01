@@ -19,7 +19,7 @@ require_relative './lib/models/news_source'
 require_relative './lib/models/news_item'
 require_relative './lib/decorators/news_item_decorator'
 
-OTR::ActiveRecord.configure_from_url! ENV['DATABASE_URL']
+OTR::ActiveRecord.configure_from_url! ENV['DATABASE_URL'] + "?pool=" + (ENV['DATABASE_POOL'] || '5')
 
 NETWORKS = [:facebook, :google, :reddit, :mail_ru, :vkontakte]#, :odnoklassniki, :weibo, :buffer, :hatebu]
 MAX_RETRIES = 48
