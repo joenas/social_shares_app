@@ -10,3 +10,7 @@ services:
     ports:
       - "6399:6379"
 
+  db:
+    image: postgres:10.2-alpine
+    ports:
+      - "5440:5432"

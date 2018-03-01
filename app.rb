@@ -1,18 +1,25 @@
-require 'grape'
-require 'social_shares'
-require 'dalli'
-require 'redis'
-require 'sidekiq'
-require 'oj'
-require 'multi_json'
+require 'dotenv/load'
+
+env = ENV['RACK_ENV'] ? ENV['RACK_ENV'].to_sym : :development
+EMPTY = ''.freeze
+
+# Load dependencies
+require 'bundler'
+Bundler.require(:default, env)
 
 require './lib/json_client'
 require './lib/min_count_worker'
 require './lib/influx_worker'
 require './lib/news_worker'
-require './lib/news_item'
+require './lib/news_counts_worker'
+require './lib/webhook_worker'
 require './lib/fetch_images_worker'
+require './lib/fetch_item_worker'
+require_relative './lib/models/news_source'
+require_relative './lib/models/news_item'
+require_relative './lib/decorators/news_item_decorator'
 
+OTR::ActiveRecord.configure_from_url! ENV['DATABASE_URL']
 
 NETWORKS = [:facebook, :google, :reddit, :mail_ru, :vkontakte]#, :odnoklassniki, :weibo, :buffer, :hatebu]
 MAX_RETRIES = 48
