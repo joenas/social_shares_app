@@ -1,0 +1,13 @@
+{
+  "name": "SocialShares",
+  "description": "Check urls for social shares and post them to webhook",
+  "keywords": [
+    "dokku",
+    "rails"
+  ],
+  "scripts": {
+    "dokku": {
+      "postdeploy": "bundle exec rake db:migrate"
+    }
+  }
+}

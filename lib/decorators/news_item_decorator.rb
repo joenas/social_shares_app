@@ -30,7 +30,7 @@ class NewsItemDecorator < Draper::Decorator
   end
 
   def content_html
-    content.squish
+    content
   end
 
   def content_truncated
@@ -39,9 +39,4 @@ class NewsItemDecorator < Draper::Decorator
       .truncate_words(30).squish
   end
 
-  private
-
-  def content_scrubbed
-    content.gsub('&#13;|<![CDATA[|]]>', EMPTY)
-  end
 end

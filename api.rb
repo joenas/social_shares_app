@@ -67,7 +67,7 @@ class SocialSharesApp < Grape::API
     requires :published_at, type: DateTime
   end
   post :news_items do
-    source = NewsSource.find_by_name(params.delete(:source))
+    source = NewsSource.find_by_name!(params.delete(:source))
     item = NewsItem.create! params.merge(news_source_id: source.id, description: params[:description].tr('<![CDATA[',EMPTY).tr(']]>', EMPTY))
     NewsCountsWorker.perform_async(item.id)
     item
@@ -80,7 +80,7 @@ class SocialSharesApp < Grape::API
   get :news_items do
     items = NewsItem.where.not(fetched_at: nil)
     items = params['last-modified'].present? ? items.where("fetched_at >= ?", DateTime.strptime(params['last-modified'].to_s,'%s')) : items.all
-    decorated = NewsItemDecorator.decorate_collection items.preload(:source).order(published_at: :desc)
+    decorated = NewsItemDecorator.decorate_collection items.preload(:source).order(published_at: :desc).limit(500)
     by_id = decorated.each_with_object({}){|item, memo| memo[item[:id]] = item.to_h}
     {items: by_id, ids: by_id.keys}
   end
