@@ -3,7 +3,7 @@ class NewsCountsWorker
 
   def perform(id, retries = 0)
     item = NewsItem.find(id)
-    count = SocialShares.total!(item.url, NETWORKS)
+    count = FbClient.share_count(item.url)
     item.update share_count: count
     if count >= item.source.min_count
       WebhookWorker.perform_async(id)

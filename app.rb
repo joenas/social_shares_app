@@ -8,6 +8,7 @@ require 'bundler'
 Bundler.require(:default, env)
 
 require './lib/json_client'
+require './lib/fb_client'
 require './lib/fetch_image_worker'
 require './lib/fetch_item_worker'
 require './lib/influx_worker'
@@ -19,6 +20,5 @@ require_relative './lib/decorators/news_item_decorator'
 
 OTR::ActiveRecord.configure_from_url! ENV['DATABASE_URL'] + "?pool=" + (ENV['DATABASE_POOL'] || '5')
 
-NETWORKS = [:facebook, :google, :reddit, :mail_ru, :vkontakte]#, :odnoklassniki, :weibo, :buffer, :hatebu]
 MAX_RETRIES = 48
 
