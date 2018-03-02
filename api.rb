@@ -15,17 +15,6 @@ class SocialSharesApp < Grape::API
     end
   end
 
-  desc 'Get news feed'
-  params do
-    optional 'last-modified', type: Integer
-  end
-  get :news do
-    items = Oj.load(redis.get('news') || '{}')
-    NewsWorker.perform_async if items.empty?
-    items = params['last-modified'].present? ? items.select{|_id, item| item[:fetched_at] >= params['last-modified']} : items
-    {items: items, ids: items.keys}
-  end
-
   desc 'Get social shares count per network for :url'
   get :all do
     client.fetch("all/#{params[:url]}") {SocialShares.selected(params[:url], NETWORKS)}
@@ -35,17 +24,6 @@ class SocialSharesApp < Grape::API
   get :total do
     count = client.fetch("total/#{params[:url]}") {SocialShares.total(params[:url], NETWORKS)}
     {count: count}
-  end
-
-  desc 'Periodically check social shares count and POST to callback_url when min_count is achieved'
-  params do
-    requires :url, type: String
-    requires :min_count, type: Integer
-    requires :callback_url, type: String
-  end
-  post :mincount do
-    MinCountWorker.perform_async(params)
-    {status: :ok}
   end
 
   desc 'Create NewsSource'

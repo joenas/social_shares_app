@@ -14,5 +14,6 @@ class FetchItemWorker
     content = Readability::Document.new(doc.at('body'), options).content.gsub('&#13;', EMPTY).squish
     image = doc.at_xpath("//meta[@name='twitter:image' or @name='twitter:image:src' or @property='twitter:image']").try(:attr, :content)
     item.update content: content, image: image, fetched_at: Time.now
+    FetchImageWorker.perform_async(image) if image.present?
   end
 end
