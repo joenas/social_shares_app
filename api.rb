@@ -6,23 +6,19 @@ class SocialSharesApp < Grape::API
   format :json
 
   helpers do
-    def client
-      @client ||= Dalli::Client.new(ENV['MEMCACHED_URL'], expires_in: ENV['MEMCACHED_EXPIRES_IN'].to_i)
-    end
-
-    def redis
-      @redis ||= Redis.new(url: ENV['REDIS_URL'])
+    def cache
+      @cache ||= Dalli::Client.new(ENV['MEMCACHED_URL'], expires_in: ENV['MEMCACHED_EXPIRES_IN'].to_i)
     end
   end
 
   desc 'Get social shares count per network for :url'
   get :all do
-    client.fetch("all/#{params[:url]}") {SocialShares.selected(params[:url], NETWORKS)}
+    cache.fetch("all/#{params[:url]}") {SocialShares.selected(params[:url], NETWORKS)}
   end
 
   desc 'Get total social shares count for :url'
   get :total do
-    count = client.fetch("total/#{params[:url]}") {SocialShares.total(params[:url], NETWORKS)}
+    count = cache.fetch("total/#{params[:url]}") {SocialShares.total(params[:url], NETWORKS)}
     {count: count}
   end
 

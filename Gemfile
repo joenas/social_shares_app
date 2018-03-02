@@ -15,10 +15,10 @@ gem 'patron', '~> 0.10.0'
 gem 'nokogiri', '~> 1.8', '>= 1.8.2'
 gem 'ruby-readability', '~> 0.7.0'
 
+gem 'pg', '~> 1.0'
 gem 'activerecord', '~> 5.0', '>= 5.0.0.1'
 gem 'otr-activerecord', '~> 1.2', '>= 1.2.4'
 gem 'draper', '~> 3.0', '>= 3.0.1'
 
-gem 'pg', '~> 1.0'
 gem 'rake', '~> 12.3'
 gem 'dotenv'
