@@ -1,6 +1,7 @@
 require './app'
 
 class SocialSharesApp < Grape::API
+  rescue_from :all
 
   version 'v1', using: :header, vendor: 'social_shares_app'
   format :json
@@ -64,7 +65,8 @@ class SocialSharesApp < Grape::API
     requires :id, type: String, desc: 'Status id.'
   end
   get 'news_item/:id' do
-    item = NewsItem.find(params[:id])
+    item = NewsItem.find_by_id(params[:id])
+    error!({ error: 'Not found'}, 404) unless item
     item.update views: item.views+1
     redirect item.url
   end
