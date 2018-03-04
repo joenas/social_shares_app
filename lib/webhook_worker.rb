@@ -4,7 +4,8 @@ class WebhookWorker
   def perform(id)
     news = NewsItem.find(id)
     client = JsonClient.new(ENV["NEWS_WEBHOOK_URL"])
-    message = "<a href='#{news.url}'>#{news.title}</a>"
+    news_url = [ENV['NEWS_ITEM_URL'], news.id].join('')
+    message = "<a href='#{news_url}'>#{news.title}</a>"
     client.post("", {
       text: message,
       format: "html",
