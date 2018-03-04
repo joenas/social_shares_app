@@ -58,4 +58,14 @@ class SocialSharesApp < Grape::API
     by_id = decorated.each_with_object({}){|item, memo| memo[item[:id]] = item.to_h}
     {items: by_id, ids: by_id.keys}
   end
+
+  desc 'Redirect to NewsItem'
+  params do
+    requires :id, type: String, desc: 'Status id.'
+  end
+  get 'news_item/:id' do
+    item = NewsItem.find(params[:id])
+    item.update views: item.views+1
+    redirect item.url
+  end
 end

@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180301105648) do
+ActiveRecord::Schema.define(version: 20180304194450) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "uuid-ossp"
   enable_extension "pgcrypto"
+  enable_extension "uuid-ossp"
 
   create_table "news_items", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "news_source_id"
@@ -29,8 +29,10 @@ ActiveRecord::Schema.define(version: 20180301105648) do
     t.datetime "updated_at", null: false
     t.string "image"
     t.datetime "fetched_at"
+    t.integer "views", default: 0
     t.index ["news_source_id"], name: "index_news_items_on_news_source_id"
     t.index ["url"], name: "index_news_items_on_url", unique: true
+    t.index ["views"], name: "index_news_items_on_views"
   end
 
   create_table "news_sources", force: :cascade do |t|
