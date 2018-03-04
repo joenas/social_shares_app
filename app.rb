@@ -20,5 +20,9 @@ require_relative './lib/decorators/news_item_decorator'
 
 OTR::ActiveRecord.configure_from_url! ENV['DATABASE_URL'] + "?pool=" + (ENV['DATABASE_POOL'] || '5')
 
+Raven.configure do |config|
+  config.dsn = ENV['RAVEN_DSN']
+end
+
 MAX_RETRIES = 48
 

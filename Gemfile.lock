@@ -109,6 +109,8 @@ GEM
     ruby-readability (0.7.0)
       guess_html_encoding (>= 0.0.4)
       nokogiri (>= 1.6.0)
+    sentry-raven (2.7.2)
+      faraday (>= 0.7.6, < 1.0)
     sidekiq (5.1.1)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
@@ -150,6 +152,7 @@ DEPENDENCIES
   puma (~> 3.4)
   rake (~> 12.3)
   ruby-readability (~> 0.7.0)
+  sentry-raven
   sidekiq (~> 5.0, >= 5.0.4)
   sinatra
 

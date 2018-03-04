@@ -21,3 +21,4 @@ gem 'draper', '~> 3.0', '>= 3.0.1'
 
 gem 'rake', '~> 12.3'
 gem 'dotenv'
+gem "sentry-raven"
