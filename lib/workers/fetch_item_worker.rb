@@ -1,9 +1,15 @@
 class FetchItemWorker
   include Sidekiq::Worker
 
+  class NewsConnectError < StandardError; end
+
   def perform(id)
     item = NewsItem.find(id)
-    resp = Faraday.get(item.url)
+    client = WebClient.new(item.url)
+    resp = client.get('')
+
+    raise(NewsConnectError, resp.body) unless resp.success?
+
     doc = Nokogiri::HTML(resp.body)
     options = {
       tags: %w[article p span div],
