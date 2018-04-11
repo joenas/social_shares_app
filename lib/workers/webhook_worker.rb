@@ -10,7 +10,7 @@ class WebhookWorker
       text: message,
       format: "html",
       displayName: news.source.name,
-      avatarUrl: news.source.avatar_url,
+      #avatarUrl: news.source.avatar_url,
       msgtype: "notice"
     })
   end
