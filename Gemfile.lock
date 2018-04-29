@@ -89,7 +89,7 @@ GEM
       hashie-forbidden_attributes (~> 0.1)
     patron (0.10.0)
     pg (1.0.0)
-    puma (3.11.2)
+    puma (3.11.4)
     rack (2.0.4)
     rack-accept (0.4.5)
       rack (>= 0.4)
