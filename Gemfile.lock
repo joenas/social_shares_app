@@ -76,7 +76,7 @@ GEM
       nokogiri (>= 1.5.9)
     mini_portile2 (2.3.0)
     minitest (5.11.3)
-    multi_json (1.13.0)
+    multi_json (1.13.1)
     multipart-post (2.0.0)
     mustermann (1.0.2)
     mustermann-grape (1.0.0)
