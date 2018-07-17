@@ -81,7 +81,7 @@ GEM
     mustermann (1.0.2)
     mustermann-grape (1.0.0)
       mustermann (~> 1.0.0)
-    nokogiri (1.8.2)
+    nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
     oj (3.5.1)
     otr-activerecord (1.2.5)
