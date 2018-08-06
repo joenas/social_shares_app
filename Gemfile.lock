@@ -83,7 +83,7 @@ GEM
       mustermann (~> 1.0.0)
     nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
-    oj (3.5.1)
+    oj (3.6.5)
     otr-activerecord (1.2.5)
       activerecord (>= 4.0, < 5.3)
       hashie-forbidden_attributes (~> 0.1)
