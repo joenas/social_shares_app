@@ -19,6 +19,6 @@ gem 'activerecord', '~> 5.0', '>= 5.0.0.1'
 gem 'otr-activerecord', '~> 1.2', '>= 1.2.4'
 gem 'draper', '~> 3.0', '>= 3.0.1'
 
-gem 'rake', '~> 12.3'
+gem 'rake', '~> 13.0'
 gem 'dotenv'
 gem "sentry-raven"

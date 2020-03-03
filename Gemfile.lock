@@ -102,7 +102,7 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.0.4)
       loofah (~> 2.2, >= 2.2.2)
-    rake (12.3.1)
+    rake (13.0.1)
     redis (4.0.2)
     request_store (1.4.1)
       rack (>= 1.4)
@@ -149,7 +149,7 @@ DEPENDENCIES
   patron (~> 0.10.0)
   pg (~> 1.0)
   puma (~> 3.4)
-  rake (~> 12.3)
+  rake (~> 13.0)
   ruby-readability (~> 0.7.0)
   sentry-raven
   sidekiq (~> 5.0, >= 5.0.4)
